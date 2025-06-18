@@ -262,4 +262,5 @@ main .section.highlight {
   background-color: var(--dark-color-1);
   margin: 0;
   padding: 40px 0;
+  color: var(--background-color);
 }
