@@ -10,7 +10,7 @@
 
 /* Individual card */
 .retro-card {
-  background-color: #111;
+  background-color: #bfbdbb;
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease;
