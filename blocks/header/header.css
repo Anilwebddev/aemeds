@@ -52,6 +52,7 @@ header nav p {
 
 header nav a:any-link {
   color: currentcolor;
+  font-size: 16px;
 }
 
 /* hamburger */
@@ -189,7 +190,8 @@ header nav .nav-sections ul > li > ul > li {
   }
 
   header nav[aria-expanded='true'] .nav-sections {
-    align-self: unset;
+      align-self: center;
+      flex: none;
   }
 
   header nav .nav-sections .nav-drop {
@@ -220,7 +222,7 @@ header nav .nav-sections ul > li > ul > li {
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: 44px;
     margin: 0;
   }
 
