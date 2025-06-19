@@ -1,4 +1,4 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 
 export default function decorate(block) {
   const ul = document.createElement('ul');
@@ -16,11 +16,12 @@ export default function decorate(block) {
     a.className = 'retro-card__link';
     a.setAttribute('target', '_blank');
 
-    // Move children into anchor
+    // Move children of row into anchor
     while (row.firstElementChild) {
       a.append(row.firstElementChild);
     }
 
+    // Add class to image and content containers
     [...a.children].forEach((div) => {
       if (div.querySelector('picture')) {
         div.className = 'retro-card__image';
@@ -33,7 +34,7 @@ export default function decorate(block) {
     ul.append(li);
   });
 
-  // Optimize all images
+  // Replace images with optimized versions
   ul.querySelectorAll('picture > img').forEach((img) =>
     img.closest('picture').replaceWith(
       createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])
