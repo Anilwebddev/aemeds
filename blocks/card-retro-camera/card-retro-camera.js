@@ -6,10 +6,13 @@ export default function decorate(block) {
 
   const section = block.closest('.section');
 
-  // ✅ Section-level AOS from metadata
-  if (section?.dataset?.animation) {
-    section.setAttribute('data-aos', section.dataset.animation);
-  }
+  // ✅ Check metadata applied by AEM
+const animationMeta = section?.dataset?.animation;
+
+if (animationMeta) {
+  section.setAttribute('data-aos', animationMeta); // ✅ Apply AOS
+}
+
 
   [...block.children].forEach((row) => {
     const cells = [...row.children];
