@@ -18,3 +18,8 @@ export default async function decorate(block) {
 
   block.append(footer);
 }
+
+
+/* AOS animation */
+
+ AOS.init();

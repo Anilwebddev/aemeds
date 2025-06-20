@@ -5,23 +5,28 @@ export default function decorate(block) {
   ul.className = 'retro-card-list';
 
   [...block.children].forEach((row) => {
+    const cells = [...row.children];
+
     const li = document.createElement('li');
     li.className = 'retro-card';
 
-    const anchor = row.querySelector('a');
-    const href = anchor ? anchor.href : '#';
+    // ✅ Get animation value from 2nd column
+    const animationValue = cells[1]?.textContent?.trim();
+    if (animationValue) {
+      li.setAttribute('data-aos', animationValue);
+    }
 
     const a = document.createElement('a');
-    a.href = href;
+    a.href = cells[0].querySelector('a')?.href || '#';
     a.className = 'retro-card__link';
     a.setAttribute('target', '_blank');
 
-    // Move children of row into anchor
-    while (row.firstElementChild) {
-      a.append(row.firstElementChild);
+    // Move all children of first cell into anchor
+    while (cells[0].firstElementChild) {
+      a.append(cells[0].firstElementChild);
     }
 
-    // Add class to image and content containers
+    // Add image and content classes
     [...a.children].forEach((div) => {
       if (div.querySelector('picture')) {
         div.className = 'retro-card__image';
@@ -34,7 +39,7 @@ export default function decorate(block) {
     ul.append(li);
   });
 
-  // Replace images with optimized versions
+  // Optimize images
   ul.querySelectorAll('picture > img').forEach((img) =>
     img.closest('picture').replaceWith(
       createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])
