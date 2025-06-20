@@ -4,37 +4,62 @@ export default function decorate(block) {
   const ul = document.createElement('ul');
   ul.className = 'retro-card-list';
 
+  const section = block.closest('.section');
+
+  // ✅ Section-level AOS from metadata
+  if (section?.dataset?.animation) {
+    section.setAttribute('data-aos', section.dataset.animation);
+  }
+
   [...block.children].forEach((row) => {
+    const cells = [...row.children];
+
     const li = document.createElement('li');
     li.className = 'retro-card';
 
-    const anchor = row.querySelector('a');
-    const href = anchor ? anchor.href : '#';
+    // ✅ Card-level animation from 3rd column (if available)
+    const animationValue = cells[2]?.textContent?.trim();
+    if (animationValue) {
+      li.setAttribute('data-aos', animationValue);
+    }
 
+    // Anchor from first cell
+    const anchor = cells[0].querySelector('a');
     const a = document.createElement('a');
-    a.href = href;
+    a.href = anchor?.href || '#';
     a.className = 'retro-card__link';
     a.setAttribute('target', '_blank');
 
-    // Move children of row into anchor
-    while (row.firstElementChild) {
-      a.append(row.firstElementChild);
+    // Build image div from 1st cell
+    if (cells[0]) {
+      const imageDiv = document.createElement('div');
+      imageDiv.className = 'retro-card__image';
+      while (cells[0].firstElementChild) {
+        imageDiv.append(cells[0].firstElementChild);
+      }
+      a.append(imageDiv);
     }
 
-    // Add class to image and content containers
-    [...a.children].forEach((div) => {
-      if (div.querySelector('picture')) {
-        div.className = 'retro-card__image';
-      } else {
-        div.className = 'retro-card__content';
+    // Build content div from 2nd cell
+    if (cells[1]) {
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'retro-card__content';
+      while (cells[1].firstElementChild) {
+        contentDiv.append(cells[1].firstElementChild);
       }
-    });
+
+      if (!contentDiv.hasChildNodes() && cells[1].textContent.trim()) {
+        contentDiv.textContent = cells[1].textContent.trim();
+      }
+
+      a.append(contentDiv);
+    }
 
     li.append(a);
     ul.append(li);
   });
 
-  // Replace images with optimized versions
+  // ✅ Optimize images
   ul.querySelectorAll('picture > img').forEach((img) =>
     img.closest('picture').replaceWith(
       createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])
