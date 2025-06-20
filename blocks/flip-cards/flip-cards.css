@@ -1,7 +1,7 @@
 .flip-cards-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 3.5rem;
   justify-content: center;
   padding: 2rem 0;
 }
@@ -47,7 +47,11 @@
 .flip-card-front img {
   max-width: 100%;
   height: auto;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
+}
+
+.flip-card-front p {
+  margin: 0;
 }
 
 .flip-card-back {
