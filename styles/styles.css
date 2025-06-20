@@ -73,6 +73,10 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   display: none;
   margin: 0;
