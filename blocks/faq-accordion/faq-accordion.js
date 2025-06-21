@@ -1,38 +1,22 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
 export default function decorate(block) {
-  const [firstRow, ...otherRows] = [...block.children];
-
   const wrapper = document.createElement('div');
   wrapper.className = 'faq-accordion-wrapper';
 
-  // LEFT: Image or fallback
+  const [firstRow, ...otherRows] = [...block.children];
+
+  // LEFT: Image (first cell of first row)
   const left = document.createElement('div');
   left.className = 'faq-image';
 
   const imageCell = firstRow.children[0];
-  const pic = imageCell.querySelector('picture');
   const img = imageCell.querySelector('img');
-  const para = imageCell.querySelector('p');
-
-  if (pic) {
-    left.append(pic);
-  } else if (img) {
+  if (img) {
     left.append(createOptimizedPicture(img.src, img.alt));
-  } else if (para && para.textContent.toLowerCase().includes('insert')) {
-    // Fallback if someone typed "Insert image here..."
-    const fallback = document.createElement('p');
-    fallback.textContent = para.textContent;
-    fallback.style.color = 'red';
-    fallback.style.fontWeight = 'bold';
-    left.append(fallback);
-  } else {
-    left.textContent = '⚠️ No image found. Please use Word → Insert → Picture.';
-    left.style.color = 'red';
-    left.style.padding = '1rem';
   }
 
-  // RIGHT: FAQ accordion
+  // RIGHT: Accordion FAQs
   const right = document.createElement('div');
   right.className = 'faq-accordion';
 
