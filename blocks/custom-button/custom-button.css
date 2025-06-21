@@ -40,3 +40,10 @@
   width: 20px;
   height: 20px;
 }
+.custom-button-icon {
+  transition: transform 0.3s ease;
+}
+
+.custom-button-link:hover .custom-button-icon {
+  transform: translateX(5px) scale(1.1);
+}

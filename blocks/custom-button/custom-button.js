@@ -9,27 +9,35 @@ export default function decorate(block) {
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'custom-button';
 
-    const link = cells[0].querySelector('a');
+    // Get link from first column
+    const link = cells[0]?.querySelector('a');
     if (link) {
-      link.classList.add('custom-button-link');
+      const button = link.cloneNode(true); // Avoid modifying the original DOM
+      button.classList.add('custom-button-link');
 
-      // If there's an icon in the second column
-      if (cells[1]) {
-        const iconHTML = cells[1].innerHTML.trim();
-        const iconDiv = document.createElement('div');
+      // Check for icon in second column
+      if (cells[1] && cells[1].textContent.trim()) {
+        const icon = cells[1].querySelector('img, svg') || cells[1].textContent.trim();
+        const iconDiv = document.createElement('span');
         iconDiv.className = 'custom-button-icon';
-        iconDiv.innerHTML = iconHTML;
-        link.append(iconDiv);
+
+        if (typeof icon === 'string') {
+          iconDiv.innerHTML = icon; // emoji or SVG string
+        } else {
+          iconDiv.append(icon.cloneNode(true)); // actual <img> or <svg>
+        }
+
+        button.append(iconDiv);
       }
 
-      btnWrapper.append(link);
+      btnWrapper.append(button);
+      wrapper.append(btnWrapper);
     }
-
-    wrapper.append(btnWrapper);
   });
 
   block.textContent = '';
   block.append(wrapper);
 
+  // Parses icon markdown (like :arrow-right:) and replaces with actual SVG
   decorateIcons(block);
 }
