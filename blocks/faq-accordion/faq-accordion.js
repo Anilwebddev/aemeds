@@ -6,26 +6,33 @@ export default function decorate(block) {
   const wrapper = document.createElement('div');
   wrapper.className = 'faq-accordion-wrapper';
 
-  // Left: Image (from first column of first row)
+  // LEFT: Image or fallback
   const left = document.createElement('div');
   left.className = 'faq-image';
 
   const imageCell = firstRow.children[0];
-
-  // ✅ FIX: find picture inside any depth, like <p><picture></picture></p>
   const pic = imageCell.querySelector('picture');
   const img = imageCell.querySelector('img');
+  const para = imageCell.querySelector('p');
 
   if (pic) {
     left.append(pic);
   } else if (img) {
     left.append(createOptimizedPicture(img.src, img.alt));
+  } else if (para && para.textContent.toLowerCase().includes('insert')) {
+    // Fallback if someone typed "Insert image here..."
+    const fallback = document.createElement('p');
+    fallback.textContent = para.textContent;
+    fallback.style.color = 'red';
+    fallback.style.fontWeight = 'bold';
+    left.append(fallback);
   } else {
-    // fallback: copy all contents from imageCell (to see if anything's there)
-    left.innerHTML = imageCell.innerHTML;
+    left.textContent = '⚠️ No image found. Please use Word → Insert → Picture.';
+    left.style.color = 'red';
+    left.style.padding = '1rem';
   }
 
-  // Right: Accordion content
+  // RIGHT: FAQ accordion
   const right = document.createElement('div');
   right.className = 'faq-accordion';
 
