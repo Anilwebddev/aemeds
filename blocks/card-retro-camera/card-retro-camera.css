@@ -111,7 +111,7 @@
 
 .retro-card__image picture,
 .retro-card__image img {
-  width: 100px;
+  width: 200px;
   height: auto;
   border-radius: 6px;
   object-fit: cover;
