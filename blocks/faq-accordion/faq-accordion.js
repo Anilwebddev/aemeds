@@ -1,3 +1,5 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+
 export default function decorate(block) {
   const [firstRow, ...otherRows] = [...block.children];
 
@@ -7,18 +9,24 @@ export default function decorate(block) {
   // Left: Image (from first column of first row)
   const left = document.createElement('div');
   left.className = 'faq-image';
+
   const imageCell = firstRow.children[0];
-  if (imageCell.querySelector('picture')) {
-    left.append(imageCell.querySelector('picture'));
+  const pic = imageCell.querySelector('picture');
+  const img = imageCell.querySelector('img');
+
+  if (pic) {
+    left.append(pic);
+  } else if (img) {
+    // fallback if picture is not wrapped
+    left.append(createOptimizedPicture(img.src, img.alt));
   }
 
   // Right: Accordion content
   const right = document.createElement('div');
   right.className = 'faq-accordion';
 
-  [...block.children].forEach((row, i) => {
+  [...block.children].forEach((row) => {
     const cells = [...row.children];
-
     if (!cells[1] || !cells[2]) return;
 
     const item = document.createElement('div');
