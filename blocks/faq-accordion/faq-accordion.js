@@ -11,14 +11,18 @@ export default function decorate(block) {
   left.className = 'faq-image';
 
   const imageCell = firstRow.children[0];
+
+  // ✅ FIX: find picture inside any depth, like <p><picture></picture></p>
   const pic = imageCell.querySelector('picture');
   const img = imageCell.querySelector('img');
 
   if (pic) {
     left.append(pic);
   } else if (img) {
-    // fallback if picture is not wrapped
     left.append(createOptimizedPicture(img.src, img.alt));
+  } else {
+    // fallback: copy all contents from imageCell (to see if anything's there)
+    left.innerHTML = imageCell.innerHTML;
   }
 
   // Right: Accordion content
