@@ -6,17 +6,25 @@ export default function decorate(block) {
 
   const [firstRow, ...otherRows] = [...block.children];
 
-  // LEFT: Image (first cell of first row)
+  // LEFT: Try to extract image from first row, first cell (even inside <p>)
   const left = document.createElement('div');
   left.className = 'faq-image';
 
   const imageCell = firstRow.children[0];
-  const img = imageCell.querySelector('img');
+  let img = imageCell.querySelector('img');
+
+  // If image is wrapped inside a <p>, try to find it
+  if (!img) {
+    const p = imageCell.querySelector('p');
+    if (p) img = p.querySelector('img');
+  }
+
+  // If image found, append as optimized picture
   if (img) {
     left.append(createOptimizedPicture(img.src, img.alt));
   }
 
-  // RIGHT: Accordion FAQs
+  // RIGHT: Accordion logic
   const right = document.createElement('div');
   right.className = 'faq-accordion';
 
@@ -29,7 +37,7 @@ export default function decorate(block) {
 
     const question = document.createElement('button');
     question.className = 'faq-question';
-    question.textContent = cells[1].textContent;
+    question.textContent = cells[1].textContent.trim();
     question.setAttribute('aria-expanded', 'false');
 
     const answer = document.createElement('div');
