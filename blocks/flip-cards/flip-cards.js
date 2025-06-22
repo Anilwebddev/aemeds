@@ -3,7 +3,7 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 export default function decorate(block) {
   const section = block.closest('.section');
 
-  // ✅ Apply section-level animation if defined via metadata
+  // ✅ Section-level AOS animation
   const animationMeta = section?.dataset?.animation;
   if (animationMeta) {
     section.setAttribute('data-aos', animationMeta);
@@ -20,13 +20,11 @@ export default function decorate(block) {
     const cardInner = document.createElement('div');
     cardInner.className = 'flip-card-inner';
 
-    // ✅ Front of card
+    // ✅ Front
     const front = document.createElement('div');
     front.className = 'flip-card-front';
 
     const picture = cells[0]?.querySelector('picture');
-    const frontText = cells[1]?.innerHTML.trim();
-
     if (picture) {
       const optimized = createOptimizedPicture(
         picture.querySelector('img')?.src || '',
@@ -37,19 +35,19 @@ export default function decorate(block) {
       front.append(optimized);
     }
 
+    // ✅ Split text content from second cell into <p> tags
+    const frontText = cells[1]?.textContent?.trim();
     if (frontText) {
-      // First <p>
-      const p1 = document.createElement('p');
-      p1.innerHTML = frontText;
-      front.append(p1);
-
-      // Second <p>
-      const p2 = document.createElement('p');
-      p2.innerHTML = frontText; // ← You can update this with dynamic data if needed
-      front.append(p2);
+      frontText.split('\n').forEach((line) => {
+        if (line.trim()) {
+          const p = document.createElement('p');
+          p.textContent = line.trim();
+          front.append(p);
+        }
+      });
     }
 
-    // ✅ Back of card
+    // ✅ Back
     const back = document.createElement('div');
     back.className = 'flip-card-back';
     const backText = cells[2]?.innerHTML.trim();
