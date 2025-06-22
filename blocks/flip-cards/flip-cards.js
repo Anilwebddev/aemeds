@@ -38,9 +38,15 @@ export default function decorate(block) {
     }
 
     if (frontText) {
-      const p = document.createElement('p');
-      p.innerHTML = frontText;
-      front.append(p);
+      // First <p>
+      const p1 = document.createElement('p');
+      p1.innerHTML = frontText;
+      front.append(p1);
+
+      // Second <p>
+      const p2 = document.createElement('p');
+      p2.textContent = 'More details'; // ← You can update this with dynamic data if needed
+      front.append(p2);
     }
 
     // ✅ Back of card
@@ -51,8 +57,7 @@ export default function decorate(block) {
       back.innerHTML = backText;
     }
 
-    cardInner.append(front);
-    cardInner.append(back);
+    cardInner.append(front, back);
     card.append(cardInner);
     wrapper.append(card);
   });

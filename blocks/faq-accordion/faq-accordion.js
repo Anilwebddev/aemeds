@@ -1,30 +1,29 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
-
 export default function decorate(block) {
   const wrapper = document.createElement('div');
   wrapper.className = 'faq-accordion-wrapper';
 
-  const [firstRow, ...otherRows] = [...block.children];
+  const [firstRow, ...rows] = [...block.children];
 
-  // LEFT: Try to extract image from first row, first cell (even inside <p>)
+  // LEFT SIDE - Detect picture or image from first row, first cell
   const left = document.createElement('div');
   left.className = 'faq-image';
 
-  const imageCell = firstRow.children[0];
-  let img = imageCell.querySelector('img');
+  const imageCell = firstRow?.children?.[0];
+  let picture = imageCell?.querySelector('picture');
 
-  // If image is wrapped inside a <p>, try to find it
-  if (!img) {
-    const p = imageCell.querySelector('p');
-    if (p) img = p.querySelector('img');
+  // Fallback to img inside <p>
+  if (!picture) {
+    const img = imageCell?.querySelector('img');
+    if (img) {
+      picture = img.closest('picture') || img;
+    }
   }
 
-  // If image found, append as optimized picture
-  if (img) {
-    left.append(createOptimizedPicture(img.src, img.alt));
+  if (picture) {
+    left.append(picture);
   }
 
-  // RIGHT: Accordion logic
+  // RIGHT SIDE - FAQ Accordions
   const right = document.createElement('div');
   right.className = 'faq-accordion';
 
