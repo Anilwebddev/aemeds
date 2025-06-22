@@ -45,7 +45,7 @@ export default function decorate(block) {
 
       // Second <p>
       const p2 = document.createElement('p');
-      p2.textContent = 'More details'; // ← You can update this with dynamic data if needed
+      p2.innerHTML = frontText; // ← You can update this with dynamic data if needed
       front.append(p2);
     }
 
