@@ -1,0 +1,62 @@
+.contact-two-col {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.contact-left {
+  flex: 1;
+  max-width: 50%;
+}
+
+.contact-subtitle {
+  font-weight: bold;
+}
+
+.contact-left h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0.2em 0;
+}
+
+.contact-left p {
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.contact-right {
+  flex: 1;
+  max-width: 45%;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.contact-form textarea {
+  min-height: 150px;
+}
+
+.contact-form button {
+  background: #1d1f23;
+  color: white;
+  padding: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
