@@ -54,13 +54,16 @@ export default function decorate(block) {
   const nameInput = document.createElement('input');
   nameInput.type = 'text';
   nameInput.placeholder = col2[0]?.textContent || 'your name';
+  nameInput.required = true;
 
   const emailInput = document.createElement('input');
   emailInput.type = 'email';
   emailInput.placeholder = col2[1]?.textContent || 'your email';
+  emailInput.required = true;
 
   const msgInput = document.createElement('textarea');
   msgInput.placeholder = col2[2]?.textContent || 'your message';
+  msgInput.required = true;
 
   const submitBtn = document.createElement('button');
   submitBtn.type = 'submit';
@@ -68,6 +71,32 @@ export default function decorate(block) {
 
   form.append(nameInput, emailInput, msgInput, submitBtn);
   rightCol.append(form);
+
+  // ✅ Form validation
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const message = msgInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!name || !email || !message) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    // Optional: submit form logic here
+    alert('Form submitted successfully!');
+
+    // Clear form
+    form.reset();
+  });
 
   wrapper.append(leftCol, rightCol);
   block.textContent = '';

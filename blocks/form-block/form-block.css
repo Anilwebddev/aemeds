@@ -1,6 +1,7 @@
 .form-block-container {
     background: #1899ba;
     padding: 50px 0;
+    margin-bottom: 0 !important;
 }
 
 .contact-two-col {
